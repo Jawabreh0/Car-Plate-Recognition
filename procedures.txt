@@ -1,0 +1,111 @@
+1-) Create account on Kaggle platform 
+
+Kaggle is a platform for the AI & ML engineers they use as their hub to find researches, codes, datasets and etc.. we will use to find a dataset. 
+
+ ---------------------
+
+2-) Create account on google colab 
+
+# Google Colab is a free cloud-based platform that allows users to create and share Jupyter notebooks. It provides a platform for running and editing Jupyter notebooks in a web browser, with support for Python, R, and many other programming languages. It also includes free GPU and TPU support, making it a powerful tool for machine learning and data science.
+
+ ---------------------
+
+3-) search on kaggle for car plates dataset and download it 
+# https://www.kaggle.com/datasets/andrewmvd/car-plate-detection
+
+ ---------------------
+
+4-) open a google colab notebook to start the, name the notebook any name related to the work such as CarPlateRecognition or LicensePlateRecognition 
+
+ ---------------------
+
+5-) install easy ocr library 
+# !pip install easyocr 
+ 
+---------------------
+
+6-) import numpy, matplotlib.pyplot, imutils, easyocr and os
+import cv2
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+import imutils 
+import easyocr 
+import os 
+
+ ---------------------
+
+7-) connect (mount) to google drive 
+from google.colab import drive
+drive.mount("/content/gdrive")
+
+ ---------------------
+
+8-) Change directory
+%cd /content/gdrive/MyDrive
+
+ ---------------------
+
+9-) Create directory (folder) for the project 
+if not os.path.isdir("CarPlateRecognition"):
+  os.makedirs("CarPlateRecognition")
+
+ ---------------------
+
+10-) Change directory to the created directory
+%cd /content/gdrive/MyDrive/CarPlateRecognition
+
+ ---------------------
+
+11-) do you remember the dataset that we download it from kaggle, choose some samples of this dataset and upload it to the created directory on google drive 
+
+ ---------------------
+
+12-) read the image using opencv 
+carImage = imread("data/cars4.png")
+
+ ---------------------
+
+13-) using opencv convert the car image from BGR to grayscale
+
+grayImage = cv2.cvtColor(carImage,cv2.COLOR_BGR2GRAY)
+
+# BGR stand for Blue Green Red, or in other words it's the traditional images so here we are converting the traditional colour image to Gray scale 
+
+ ---------------------
+
+14-) using Matplotlib show the image after making the colour conversion 
+
+plt.imshow(cv2.cvtColor(grayImage,cv2.COLOR_BGR2RGB))
+
+# This line of code is using the Matplotlib library's plt.imshow() function to display an image and the OpenCV library's cv2.cvtColor() function to convert an image from the BGR color space to RGB color space
+
+# The reason for this conversion is that the default color map used by plt.imshow() function in Matplotlib is RGB, while the default color space used by OpenCV library is BGR.
+
+ ---------------------
+
+15-) Apply bilateral filter 
+bfilter = cv2.bilateralFilter(grayImage, 11, 17, 17)
+
+# cv2.bilateralFilter apply filter to the bilateral image to reduce the noise in the image, the first parameter is the entered image which in this case is a grayscale image, the second parameter  is the diameter of each pixel neighborhood used during filtering it's used to reduce the noise, increasing the number means more noise reduction, but increasing it more than the required may negatively affect the result because more noise reduction make less sharpness so in general, it is a trade-off between noise reduction and image sharpness.
+It is recommended to test different values and check the output visually to determine the best value.
+
+ ---------------------
+
+16-) using Canny make edge detection
+edged = cv2.Canny(bfilter, 30, 200) #Edge detection 
+
+ ---------------------
+
+17-) using Matplotlib show the image after applying the filter andd the edge detection  
+plt.imshow(cv2.cvtColor(edged, cv2.COLOR_BGR2RGB))
+ 
+---------------------
+
+18-) using opencv with its findContures function, make contures 
+keypoints = cv2.findContours(edged.copy(), cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
+
+
+    break
+len(location)
+
